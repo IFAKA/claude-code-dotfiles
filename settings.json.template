@@ -1,0 +1,24 @@
+{
+  "_comment": "Dotfiles-managed keys. install.sh merges these into ~/.claude/settings.json.",
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  },
+  "env": {
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "85",
+    "ENABLE_TOOL_SEARCH": "auto:10"
+  },
+  "hooks": {
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/pre-compact.sh",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "version": "0.1.0",
+  "profiles": {
+    "minimal": [
+      "settings.json.template"
+    ],
+    "hooks": [
+      "settings.json.template",
+      "hooks/pre-compact.sh",
+      "hooks/post-tool-use.sh"
+    ],
+    "full": [
+      "statusline.sh",
+      "CLAUDE.md",
+      "hooks/pre-compact.sh",
+      "hooks/post-tool-use.sh",
+      "rules/context-budget.md",
+      "rules/git-safety.md",
+      "rules/code-review.md",
+      "settings.json.template"
+    ]
+  },
+  "symlinks": {
+    "statusline.sh": "statusline.sh",
+    "CLAUDE.md": "CLAUDE.md",
+    "hooks": "hooks",
+    "rules": "rules"
+  },
+  "executable": [
+    "statusline.sh",
+    "hooks/pre-compact.sh",
+    "hooks/post-tool-use.sh"
+  ],
+  "settings_patch": "settings.json.template"
+}
