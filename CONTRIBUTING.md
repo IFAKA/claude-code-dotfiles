@@ -69,7 +69,7 @@ Want to maintain your own variant? Fork this repo and install with:
 
 ```bash
 DOTFILES_REPO=yourname/claude-code-dotfiles \
-  curl -fsSL https://raw.githubusercontent.com/yourname/claude-code-dotfiles/main/install.sh | bash
+  curl -fsSL https://raw.githubusercontent.com/yourname/claude-code-dotfiles/main/install.sh | sh
 ```
 
 Your fork is immediately installable without editing `install.sh`. Share your fork URL in a PR comment if it has interesting experiments that might graduate to core.

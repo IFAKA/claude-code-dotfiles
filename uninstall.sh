@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
-# curl -fsSL https://raw.githubusercontent.com/IFAKA/claude-code-dotfiles/main/uninstall.sh | bash
-set -euo pipefail
+#!/bin/sh
+# curl -fsSL https://raw.githubusercontent.com/IFAKA/claude-code-dotfiles/main/uninstall.sh | sh
+set -eu
 
 DOTFILES_DIR="$HOME/.claude/dotfiles"
 CLAUDE_DIR="$HOME/.claude"

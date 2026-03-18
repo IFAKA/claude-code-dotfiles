@@ -8,7 +8,7 @@ Shareable, versioned Claude Code configuration that optimizes your context windo
 
 ```bash
 # Full install (recommended)
-curl -fsSL https://raw.githubusercontent.com/IFAKA/claude-code-dotfiles/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/IFAKA/claude-code-dotfiles/main/install.sh | sh
 ```
 
 ### Options
@@ -16,18 +16,18 @@ curl -fsSL https://raw.githubusercontent.com/IFAKA/claude-code-dotfiles/main/ins
 ```bash
 # Minimal: patch settings.json only (no CLAUDE.md, no hooks)
 DOTFILES_PROFILE=minimal \
-  curl -fsSL https://raw.githubusercontent.com/IFAKA/claude-code-dotfiles/main/install.sh | bash
+  curl -fsSL https://raw.githubusercontent.com/IFAKA/claude-code-dotfiles/main/install.sh | sh
 
 # Pin to a stable version
 DOTFILES_VERSION=v1.0.0 \
-  curl -fsSL https://raw.githubusercontent.com/IFAKA/claude-code-dotfiles/main/install.sh | bash
+  curl -fsSL https://raw.githubusercontent.com/IFAKA/claude-code-dotfiles/main/install.sh | sh
 
 # Use a fork
 DOTFILES_REPO=yourname/claude-code-dotfiles \
-  curl -fsSL https://raw.githubusercontent.com/yourname/claude-code-dotfiles/main/install.sh | bash
+  curl -fsSL https://raw.githubusercontent.com/yourname/claude-code-dotfiles/main/install.sh | sh
 ```
 
-**Requirements:** `curl`, `jq`, `bash ≥4` (macOS ships bash 3 — `brew install bash`)
+**Requirements:** `curl`, `jq`
 
 ---
 
@@ -62,7 +62,7 @@ See [`docs/why-each-setting.md`](docs/why-each-setting.md) for rationale and evi
 Re-run the same install command — it's idempotent:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/IFAKA/claude-code-dotfiles/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/IFAKA/claude-code-dotfiles/main/install.sh | sh
 ```
 
 ---
@@ -70,7 +70,7 @@ curl -fsSL https://raw.githubusercontent.com/IFAKA/claude-code-dotfiles/main/ins
 ## Uninstall
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/IFAKA/claude-code-dotfiles/main/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/IFAKA/claude-code-dotfiles/main/uninstall.sh | sh
 ```
 
 Removes symlinks and dotfiles-managed settings keys. Your original `settings.json` is restored from backup.
@@ -106,5 +106,5 @@ These are intentionally NOT in this repo:
 
 This installer pipes to bash. Before running:
 - Inspect: `curl -fsSL .../install.sh | less`
-- Pin a version: `DOTFILES_VERSION=v1.0.0 curl ... | bash`
+- Pin a version: `DOTFILES_VERSION=v1.0.0 curl ... | sh`
 - Fork and host your own: `DOTFILES_REPO=yourname/claude-code-dotfiles`
