@@ -2,16 +2,24 @@
 input=$(cat)
 
 MODEL=$(echo "$input" | jq -r '.model.display_name')
-PCT=$(echo "$input" | jq -r '.context_window.used_percentage // 0' | cut -d. -f1)
-IN_TOKENS=$(echo "$input" | jq -r '.context_window.total_input_tokens // 0')
-OUT_TOKENS=$(echo "$input" | jq -r '.context_window.total_output_tokens // 0')
+WINDOW_SIZE=$(echo "$input" | jq -r '.context_window.context_window_size // 200000')
+CACHE_CREATE=$(echo "$input" | jq -r '.context_window.current_usage.cache_creation_input_tokens // 0')
+CACHE_READ=$(echo "$input" | jq -r '.context_window.current_usage.cache_read_input_tokens // 0')
 
-format_num() {
-    if [ $1 -ge 1000000 ]; then echo "$(($1/1000000))M"
-    elif [ $1 -ge 1000 ]; then echo "$(($1/1000))K"
-    else echo "$1"
-    fi
-}
+# Use cache tokens as numerator — includes all overhead (system prompt, CLAUDE.md, tools, MCP)
+# Deduct 64K output reservation from denominator for accurate effective limit
+EFFECTIVE=$(( WINDOW_SIZE - 64000 ))
+ACTUAL=$(( CACHE_CREATE + CACHE_READ ))
+
+if [ "$ACTUAL" -gt 0 ]; then
+  PCT=$(( ACTUAL * 100 / EFFECTIVE ))
+  [ "$PCT" -gt 100 ] && PCT=100
+else
+  PCT=$(echo "$input" | jq -r '.context_window.used_percentage // 0' | cut -d. -f1)
+fi
+
+USED_K=$(( ACTUAL / 1000 ))
+EFFECTIVE_K=$(( EFFECTIVE / 1000 ))
 
 if [ "$PCT" -lt 50 ]; then COLOR="\033[32m"
 elif [ "$PCT" -lt 80 ]; then COLOR="\033[33m"
@@ -19,7 +27,11 @@ else COLOR="\033[31m"
 fi
 RESET="\033[0m"
 
+FILLED=$(( PCT / 10 ))
+[ "$FILLED" -gt 10 ] && FILLED=10
+BAR=$(printf '%*s' "$FILLED" '' | tr ' ' '█')$(printf '%*s' "$((10 - FILLED))" '' | tr ' ' '░')
+
 COMPACT_THRESHOLD="${CLAUDE_AUTOCOMPACT_PCT_OVERRIDE:-85}"
 if [ "$PCT" -ge "$COMPACT_THRESHOLD" ] 2>/dev/null; then WARN=" ⚡"; else WARN=""; fi
 
-echo -e "[$MODEL] ${COLOR}◉ ${PCT}%${WARN}${RESET} | $(format_num $IN_TOKENS)↓ $(format_num $OUT_TOKENS)↑"
+echo -e "[$MODEL] ${COLOR}${BAR} ${PCT}% (${USED_K}K/${EFFECTIVE_K}K)${WARN}${RESET}"
