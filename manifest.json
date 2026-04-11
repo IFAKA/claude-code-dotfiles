@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.3.0",
   "profiles": {
     "minimal": [
       "settings.json.template"
@@ -18,8 +18,8 @@
       "hooks/post-tool-use.sh",
       "hooks/stop.sh",
       "rules/git-safety.md",
-      "rules/git-safety.original.md",
       "skills/context-budget/SKILL.md",
+      "skills/engram-offload/SKILL.md",
       "skills/owasp-code-review/SKILL.md",
       ".claudeignore.template",
       "settings.json.template"
@@ -31,6 +31,7 @@
     "hooks": "hooks",
     "rules": "rules",
     "skills/context-budget": "skills/context-budget",
+    "skills/engram-offload": "skills/engram-offload",
     "skills/owasp-code-review": "skills/owasp-code-review"
   },
   "executable": [

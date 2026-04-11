@@ -66,3 +66,11 @@ Call `mem_session_summary` with: Goal / Discoveries / Accomplished / Next Steps 
 1. Call `mem_session_summary` with the compacted summary content
 2. Call `mem_context` to recover prior context
 3. Then continue
+
+### Context Offloading (keep messages lean):
+- File read > ~100 lines → save key facts to Engram, don't keep raw content in messages
+- Large tool output (logs, test results > 50 lines) → save summary to Engram
+- Before `/compact` → `mem_save` session state: `{project}/session/state`
+- After `/compact` → `mem_search("{project}/session/state")` → `mem_get_observation` → continue
+- Naming: `{project}/{slug}/{type}` (e.g. `my-app/auth/schema`)
+- Save **what you learned**, not raw output — compress facts, not content
