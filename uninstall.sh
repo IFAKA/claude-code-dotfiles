@@ -25,7 +25,7 @@ if [[ -f "$DOTFILES_DIR/manifest.json" ]]; then
     fi
 else
     # Fallback: hardcoded known targets
-    for t in statusline.sh CLAUDE.md hooks rules; do
+    for t in statusline.sh CLAUDE.md hooks rules skills/context-budget skills/owasp-code-review; do
         [[ -L "$CLAUDE_DIR/$t" ]] && rm "$CLAUDE_DIR/$t" && echo "Removed: $t"
     done
 fi

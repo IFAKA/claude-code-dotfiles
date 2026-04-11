@@ -97,10 +97,41 @@ if [ -n "${PATCH_TEMPLATE:-}" ]; then
     fi
 fi
 
+# ── migrate from previous versions ───────────────────────────────
+# v0.2.0: context-budget.md and code-review.md moved to skills/
+for demoted in "rules/context-budget.md" "rules/code-review.md"; do
+    f="$DOTFILES_DIR/$demoted"
+    [ -f "$f" ] && rm "$f" && ok "Migrated: removed demoted $demoted"
+done
+
 # ── version marker ────────────────────────────────────────────────
 jq -r '.version' "$MANIFEST_FILE" > "$CLAUDE_DIR/.dotfiles-version"
 printf '  (repo: %s, ref: %s)\n' "$REPO" "$VERSION" >> "$CLAUDE_DIR/.dotfiles-version"
 ok "Version: $(head -1 "$CLAUDE_DIR/.dotfiles-version")"
+
+# ── optional extras (skip with DOTFILES_EXTRAS=0) ────────────────
+if [ "${DOTFILES_EXTRAS:-1}" = "1" ]; then
+    printf "\nSetting up extras...\n"
+
+    # engram — persistent cross-session memory via MCP
+    if command -v brew >/dev/null 2>&1; then
+        brew install gentleman-programming/tap/engram >/dev/null 2>&1 \
+            && ok "Installed engram (memory)" \
+            || warn "engram install failed — run: brew install gentleman-programming/tap/engram"
+    fi
+    if command -v claude >/dev/null 2>&1; then
+        claude plugin marketplace add Gentleman-Programming/engram >/dev/null 2>&1 \
+        && claude plugin install engram >/dev/null 2>&1 \
+        && ok "Registered engram MCP plugin" \
+        || warn "engram plugin registration failed — run manually"
+
+        # caveman — output compression + /caveman:compress tool (auto-activates each session)
+        claude plugin marketplace add JuliusBrussee/caveman >/dev/null 2>&1 \
+        && claude plugin install caveman@caveman >/dev/null 2>&1 \
+        && ok "Installed caveman (compression)" \
+        || warn "caveman install failed — run manually"
+    fi
+fi
 
 printf "\nBackup: %s\n" "$BACKUP_DIR"
 printf "Done. Restart claude to pick up changes.\n"

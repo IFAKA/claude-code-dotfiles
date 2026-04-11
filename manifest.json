@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "profiles": {
     "minimal": [
       "settings.json.template"
@@ -7,16 +7,21 @@
     "hooks": [
       "settings.json.template",
       "hooks/pre-compact.sh",
-      "hooks/post-tool-use.sh"
+      "hooks/post-tool-use.sh",
+      "hooks/stop.sh"
     ],
     "full": [
       "statusline.sh",
       "CLAUDE.md",
+      "CLAUDE.original.md",
       "hooks/pre-compact.sh",
       "hooks/post-tool-use.sh",
-      "rules/context-budget.md",
+      "hooks/stop.sh",
       "rules/git-safety.md",
-      "rules/code-review.md",
+      "rules/git-safety.original.md",
+      "skills/context-budget/SKILL.md",
+      "skills/owasp-code-review/SKILL.md",
+      ".claudeignore.template",
       "settings.json.template"
     ]
   },
@@ -24,12 +29,15 @@
     "statusline.sh": "statusline.sh",
     "CLAUDE.md": "CLAUDE.md",
     "hooks": "hooks",
-    "rules": "rules"
+    "rules": "rules",
+    "skills/context-budget": "skills/context-budget",
+    "skills/owasp-code-review": "skills/owasp-code-review"
   },
   "executable": [
     "statusline.sh",
     "hooks/pre-compact.sh",
-    "hooks/post-tool-use.sh"
+    "hooks/post-tool-use.sh",
+    "hooks/stop.sh"
   ],
   "settings_patch": "settings.json.template"
 }
