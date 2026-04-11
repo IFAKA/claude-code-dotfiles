@@ -34,4 +34,16 @@ BAR=$(printf '%*s' "$FILLED" '' | tr ' ' '█')$(printf '%*s' "$((10 - FILLED))"
 COMPACT_THRESHOLD="${CLAUDE_AUTOCOMPACT_PCT_OVERRIDE:-85}"
 if [ "$PCT" -ge "$COMPACT_THRESHOLD" ] 2>/dev/null; then WARN=" ⚡"; else WARN=""; fi
 
-echo -e "[$MODEL] ${COLOR}${BAR} ${PCT}% (${USED_K}K/${EFFECTIVE_K}K)${WARN}${RESET}"
+CAVEMAN_TEXT=""
+CAVEMAN_FLAG="$HOME/.claude/.caveman-active"
+if [ -f "$CAVEMAN_FLAG" ]; then
+  CAVEMAN_MODE=$(cat "$CAVEMAN_FLAG" 2>/dev/null)
+  if [ "$CAVEMAN_MODE" = "full" ] || [ -z "$CAVEMAN_MODE" ]; then
+    CAVEMAN_TEXT=" \033[38;5;172m[CAVEMAN]\033[0m"
+  else
+    CAVEMAN_SUFFIX=$(echo "$CAVEMAN_MODE" | tr '[:lower:]' '[:upper:]')
+    CAVEMAN_TEXT=" \033[38;5;172m[CAVEMAN:${CAVEMAN_SUFFIX}]\033[0m"
+  fi
+fi
+
+echo -e "[$MODEL] ${COLOR}${BAR} ${PCT}% (${USED_K}K/${EFFECTIVE_K}K)${WARN}${RESET}${CAVEMAN_TEXT}"

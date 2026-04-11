@@ -30,3 +30,39 @@
 ## Tool Preference
 - Read/Edit/Grep/Glob over Bash equivalents (cat, grep, find)
 - Dedicated tools; Bash only for system commands
+
+## Engram Persistent Memory
+
+You have access to Engram (`mem_save`, `mem_search`, `mem_context`, `mem_get_observation`, `mem_session_summary`). This is ALWAYS ACTIVE — not on-demand.
+
+### Save proactively (no need to ask) after any of:
+- Architecture or design decision made
+- Bug fix completed (include root cause)
+- Non-obvious discovery about the codebase
+- Tool/library choice made with tradeoffs
+- Pattern or convention established
+- User preference or constraint learned
+- Configuration change done
+
+Self-check after every task: "Did I decide, fix, or discover something non-obvious? → `mem_save` now."
+
+`mem_save` format:
+- **title**: Verb + what (e.g. "Fixed N+1 query in UserList")
+- **type**: bugfix | decision | architecture | discovery | pattern | config | preference
+- **content**: What / Why / Where / Learned (omit Learned if none)
+- **topic_key**: stable key for evolving topics (e.g. `architecture/auth-model`)
+
+### Search memory when:
+- User says "remember", "recall", "what did we do", or references past work
+- Starting work that might have been done before
+- User's first message references a project, feature, or problem → search first, then respond
+
+Search order: `mem_context` first (fast) → `mem_search` if not found → `mem_get_observation` for full content.
+
+### Session close (before saying "done"):
+Call `mem_session_summary` with: Goal / Discoveries / Accomplished / Next Steps / Relevant Files.
+
+### After compaction:
+1. Call `mem_session_summary` with the compacted summary content
+2. Call `mem_context` to recover prior context
+3. Then continue
